@@ -1,4 +1,5 @@
 import { ClerkProvider } from "@clerk/nextjs";
+import { CartSheet } from "@/components/app/CartSheet";
 import { Header } from "@/components/app/Header";
 import { Toaster } from "@/components/ui/sonner";
 import { CartStoreProvider } from "@/lib/store/cart-store-provider";
@@ -12,8 +13,9 @@ function AppLayout({ children }: { children: React.ReactNode }) {
         <ChatStoreProvider>
           <Header />
           <main>{children}</main>
-          <SanityLive />
+          <CartSheet />
           <Toaster position="bottom-center" />
+          <SanityLive />
         </ChatStoreProvider>
       </CartStoreProvider>
     </ClerkProvider>
