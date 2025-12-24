@@ -10,6 +10,7 @@ function SanityAppProvider({ children }: { children: React.ReactNode }) {
         {
           projectId,
           dataset,
+          auth: { callbackUrl: "https://e-commerce-ai-whyd.vercel.app/admin" },
         },
       ]}
       // We handle the loading state in the Providers component by showing a loading indicator via the dynamic import
