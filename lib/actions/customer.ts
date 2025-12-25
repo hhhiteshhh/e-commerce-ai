@@ -41,6 +41,7 @@ export async function getOrCreateStripeCustomer(
   });
 
   let stripeCustomerId: string;
+  console.log("here3", existingStripeCustomers);
 
   if (existingStripeCustomers.data.length > 0) {
     // Customer exists in Stripe

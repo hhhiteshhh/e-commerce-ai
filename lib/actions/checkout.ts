@@ -5,6 +5,7 @@ import Stripe from "stripe";
 import { getOrCreateStripeCustomer } from "@/lib/actions/customer";
 import { client } from "@/sanity/lib/client";
 import { PRODUCTS_BY_IDS_QUERY } from "@/sanity/queries/products";
+import type { CartItem } from "../store/cart-store";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("STRIPE_SECRET_KEY is not defined");
@@ -13,15 +14,6 @@ if (!process.env.STRIPE_SECRET_KEY) {
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2025-12-15.clover",
 });
-
-// Types
-interface CartItem {
-  productId: string;
-  name: string;
-  price: number;
-  quantity: number;
-  image?: string;
-}
 
 interface CheckoutResult {
   success: boolean;
@@ -91,6 +83,7 @@ export async function createCheckoutSession(
     if (validationErrors.length > 0) {
       return { success: false, error: validationErrors.join(". ") };
     }
+    console.log("here");
 
     // 5. Create Stripe line items with validated prices
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
@@ -108,7 +101,6 @@ export async function createCheckoutSession(
         },
         quantity,
       }));
-
     // 6. Get or create Stripe customer
     const userEmail = user.emailAddresses[0]?.emailAddress ?? "";
     const userName =
@@ -197,7 +189,6 @@ export async function createCheckoutSession(
       success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/checkout`,
     });
-
     return { success: true, url: session.url ?? undefined };
   } catch (error) {
     console.error("Checkout error:", error);
