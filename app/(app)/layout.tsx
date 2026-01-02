@@ -6,14 +6,17 @@ import { Toaster } from "@/components/ui/sonner";
 import { CartStoreProvider } from "@/lib/store/cart-store-provider";
 import { ChatStoreProvider } from "@/lib/store/chat-store-provider";
 import { SanityLive } from "@/sanity/lib/live";
+import { AppShell } from "@/components/app/AppShell";
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
       <CartStoreProvider>
         <ChatStoreProvider>
-          <Header />
-          <main>{children}</main>
+          <AppShell>
+            <Header />
+            <main>{children}</main>
+          </AppShell>
           <CartSheet />
           <ChatSheet />
           <Toaster position="bottom-center" />
